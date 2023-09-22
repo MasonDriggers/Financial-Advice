@@ -54,6 +54,31 @@ fetch(API_URL)
             losersList.appendChild(li);
         });
 
+        let labels = data.top_gainers.map(stock => stock.ticker);
+        let dataset = data.top_gainers.map(stock => parseFloat(stock.change_percentage));
+    
+        let ctx = document.getElementById('myChart').getContext('2d');
+        let chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Change Percentage',
+                    data: dataset,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color of bars
+                    borderColor: 'rgba(75, 192, 192, 1)', // Border color of bars
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error.message);
