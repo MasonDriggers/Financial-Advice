@@ -32,9 +32,28 @@ fetch(API_URL)
         }
         return response.json();
     })
+
+
+    
     .then(data => {
+       const gainersList = document.getElementById('top_gainers');
+       const losersList = document.getElementById('top_losers');
+
         // For demonstration purposes, we just stringify the JSON. You should properly process the data and display it.
-        document.getElementById('data-container').textContent = JSON.stringify(data);
+       // document.getElementById('data-container').textContent = JSON.stringify(data);
+        
+        data.top_gainers.forEach(stock => {
+            let li = document.createElement('li');
+            li.textContent = `${stock.ticker}: ${stock.price} ${stock.change_amount} ${stock.change_percentage}`;
+            gainersList.appendChild(li);
+        });
+
+        data.top_losers.forEach(stock => {
+            let li = document.createElement('li');
+            li.textContent = `${stock.ticker}: ${stock.price} ${stock.change_amount} ${stock.change_percentage}`;
+            losersList.appendChild(li);
+        });
+
     })
     .catch(error => {
         console.error('There was a problem with the fetch operation:', error.message);
