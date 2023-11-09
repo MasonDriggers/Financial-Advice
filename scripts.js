@@ -44,21 +44,46 @@ fetch(API_URL)
         
         data.top_gainers.forEach(stock => {
             let li = document.createElement('li');
-            li.textContent = `${stock.ticker}: ${stock.price} ${stock.change_amount} ${stock.change_percentage}`;
+            li.textContent = `Ticker:${stock.ticker}: Price:${stock.price}$ Amount Changed:${stock.change_amount} Change Percentage:${stock.change_percentage}`;
             gainersList.appendChild(li);
         });
 
         data.top_losers.forEach(stock => {
             let li = document.createElement('li');
-            li.textContent = `${stock.ticker}: ${stock.price} ${stock.change_amount} ${stock.change_percentage}`;
+            li.textContent = `Ticker:${stock.ticker}: Price:${stock.price}$ Amount Changed:${stock.change_amount} Change Percentage:${stock.change_percentage}`;
             losersList.appendChild(li);
         });
 
         let labels = data.top_gainers.map(stock => stock.ticker);
         let dataset = data.top_gainers.map(stock => parseFloat(stock.change_percentage));
     
-        let ctx = document.getElementById('myChart').getContext('2d');
+        let ctx = document.getElementById('winChart').getContext('2d');
         let chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Change Percentage',
+                    data: dataset,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)', // Color of bars
+                    borderColor: 'rgba(75, 192, 192, 1)', // Border color of bars
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+         labels = data.top_losers.map(stock => stock.ticker);
+         dataset = data.top_losers.map(stock => parseFloat(stock.change_percentage));
+    
+         ctx = document.getElementById('loserChart').getContext('2d');
+         chart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: labels,
